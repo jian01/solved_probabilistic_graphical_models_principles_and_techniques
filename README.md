@@ -1,4 +1,4 @@
-# Solved "Probabilistic Graphical Models: Principles and Techniques"
+# Solved exercises for "Probabilistic Graphical Models: Principles and Techniques"
 
 This is an attempt of having fun and learning graphical models.
 
