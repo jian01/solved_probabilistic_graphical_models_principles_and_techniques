@@ -61,7 +61,7 @@ Because $(\alpha' \cup \beta') \cap \theta = \emptyset$ and $\alpha' \cap \beta'
 \begin{equation}
 P(\alpha' \cup \beta' \cup \theta)=P(\alpha') + P(\beta') + P(\theta)
 \end{equation}
-And the proof goes:
+And finally the proof:
 \begin{align*}
 P(\alpha \cup \theta)=^{(3)}P(\alpha' \cup \beta' \cup \theta) \\
 P(\alpha \cup \theta)=^{(4)}P(\alpha') + P(\beta') + P(\theta) \iff^{ \text{add $P(\theta)$ on both sides} } \\
@@ -209,8 +209,7 @@ The maximum occurs when $\alpha \cap \beta = \emptyset$.
 \begin{align*}
 P(\cdot|\alpha) = \frac{P(\cdot \cap \alpha)}{P(\alpha)}
 \end{align*}
-But we know $\cdot \cap \alpha$ is in the event space then because of the same definition $P(\cdot \cap \alpha) \geq 0$ and we know that $P(\alpha) > 0$. bla bla bla this means $P(\cdot|\alpha) \geq 0$. \\
-The proof is left to the reader (?
+But we know $\cdot \cap \alpha$ is in the event space then because of the same definition $P(\cdot \cap \alpha) \geq 0$ and we know that $P(\alpha) > 0$. So $P(\cdot|\alpha) \geq 0$.
 \subsubsection{$P(\Omega|\alpha)=1$}
 \begin{align*}
 P(\Omega|\alpha) = \frac{P(\Omega \cap \alpha)}{P(\alpha)} =_{\Omega \cap \alpha = \alpha} \frac{P(\alpha)}{P(\alpha)} = 1
@@ -246,7 +245,7 @@ P(X=x \cup Y=y | Z=z) =_{\text{condition}}\\
 P(X=x|Z=z)P(Y=y|Z=z) \iff_{\text{event conditional independence}}\\
 (X=x \perp Y=y | Z=z)
 \end{align*}
-Below we have that:
+Above we have that:
 \begin{align*}
 (X=x \perp Y=y | Z=z)\text{ for all }\boldsymbol{x} \in Val(\boldsymbol{X}), \boldsymbol{y} \in Val(\boldsymbol{Y}), \boldsymbol{z} \in Val(\boldsymbol{Z})
 \end{align*}
@@ -280,7 +279,7 @@ P(X|Z)P(Y|Z)=\frac{\phi_1(X,Z) \phi_2(Y,Z) (\sum_x \phi_1(X,Z)) (\sum_y \phi_2(Y
 =\frac{\phi_1(X,Z) \phi_2(Y,Z) (\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z))}{(\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z))^2}\\
 =\frac{\phi_1(X,Z) \phi_2(Y,Z)}{\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)}=_{(2)} P(X,Y|Z) \Rightarrow_{2.5.1} (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})\footnotemark
 \end{align*}
-\footnotetext{This could be also an if and only if proof so 2.5.2 would be unnecessary}
+\footnotetext{This could be also an if and only if proof so 2.5.2 wouldn't be unnecessary}
 \subsection{Exercise 2.6}
 \begin{equation}
 P(X|Y)=\frac{P(X,Y)}{P(Y)}=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
@@ -288,6 +287,6 @@ P(X|Y)=\frac{P(X,Y)}{P(Y)}=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
 \begin{equation}
 \sum_z P(X,Z=z|Y)=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
 \end{equation}
-And there we have that (1) is equal to (2)\footnote{Actually i dont know if i can use the sum over the joint distribution for (1) but the exercise was boring}
+And there we have that (1) is equal to (2)\footnote{Actually i don't know if i can use the sum over the joint distribution for (1) but the exercise was boring}
 \subsection{Exercise 2.7}
 \end{document}
