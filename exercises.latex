@@ -1,0 +1,293 @@
+\documentclass[12pt,a4paper]{article}
+\title{Solved exercises for 'Probabilistic Graphical Models: Principles and techniques'}
+\author{Gianmarco Cafferata}
+
+\usepackage{caption}
+\usepackage{chngcntr}
+\usepackage{amsmath}
+\usepackage{multirow}
+
+\counterwithin*{equation}{section}
+\counterwithin*{equation}{subsection}
+\counterwithin*{equation}{subsubsection}
+
+\begin{document}
+\maketitle
+\clearpage
+\setcounter{section}{1}
+\section{Foundations}
+\subsection{Exercise 2.1}
+\subsubsection{(a) $P(\emptyset)=0$}
+From the axioms and set theory:
+\begin{equation}
+\emptyset, \Omega \in \mathcal{S}, \emptyset \cap \Omega = \emptyset \Rightarrow P(\emptyset \cup \Omega)=P(\emptyset)+P(\Omega)
+\end{equation}
+\begin{equation}
+P(\Omega)=1
+\end{equation}
+\begin{equation}
+\emptyset \cup \Omega=\Omega
+\end{equation}
+With (2) and (3) we got
+$$P(\Omega)=P(\emptyset \cup \Omega)=1 \Rightarrow^{(1)} P(\emptyset \cup \Omega)=P(\emptyset)+P(\Omega)=1
+\Rightarrow P(\emptyset)=1-P(\Omega)=^{(2)}0$$
+\subsubsection{(b) If $\alpha \subseteq \beta$, then $P(\alpha) \leq P(\beta)$}
+Given the special case that $\alpha=\beta \Rightarrow P(\alpha)=P(\beta)$ and the inequality is directly verified.\\
+Lets analyze the other case where $\alpha \subset \beta$ but $\alpha \neq \beta$, from the axioms and set theory we got:\\
+Let $\theta$ be $\theta = \beta - \alpha$
+\begin{equation}
+\beta = \alpha \cup \theta
+\end{equation}
+\begin{equation}
+\alpha, \theta \in \mathcal{S}, \alpha \cap \theta = \emptyset \Rightarrow P(\alpha \cup \theta)=P(\alpha)+P(\theta)
+\end{equation}
+Then $P(\beta)=^{(1)}P(\alpha \cup \theta)=^{(2)}P(\alpha)+P(\theta)$,
+but because $\theta \in \mathcal{S}$ we know $P(\theta) \geq 0$, therefore we reach
+ $P(\beta)=P(\alpha)+P(\theta) \geq P(\alpha)$.
+\subsubsection{(c) $P(\alpha \cup \beta)=P(\alpha)+P(\beta)-P(\alpha \cap \beta)$}
+Let $\alpha = \alpha' \cup \theta$ and $\beta = \beta' \cup \theta$ such that $\alpha' \cap \theta = \emptyset$ and $\beta' \cap \theta = \emptyset$.\\
+Then $\alpha \in \mathcal{S} \Rightarrow \alpha' \in \mathcal{S} \land \theta \in \mathcal{S}$ and the same goes for beta.\\
+Because of set theory and the axioms we know:
+\begin{equation}
+\alpha', \theta \in \mathcal{S}, \alpha' \cap \theta = \emptyset \Rightarrow P(\alpha' \cup \theta)=P(\alpha)=P(\alpha')+P(\theta)
+\end{equation}
+\begin{equation}
+\beta', \theta \in \mathcal{S}, \beta' \cap \theta = \emptyset \Rightarrow P(\beta' \cup \theta)=P(\beta)=P(\beta')+P(\theta)
+\end{equation}
+\begin{equation}
+\alpha \cup \beta = \alpha' \cup \beta' \cup \theta
+\end{equation}
+Because $(\alpha' \cup \beta') \cap \theta = \emptyset$ and $\alpha' \cap \beta' = \emptyset$ then:
+\begin{equation}
+P(\alpha' \cup \beta' \cup \theta)=P(\alpha') + P(\beta') + P(\theta)
+\end{equation}
+And the proof goes:
+\begin{align*}
+P(\alpha \cup \theta)=^{(3)}P(\alpha' \cup \beta' \cup \theta) \\
+P(\alpha \cup \theta)=^{(4)}P(\alpha') + P(\beta') + P(\theta) \iff^{ \text{add $P(\theta)$ on both sides} } \\
+P(\alpha \cup \theta) + P(\theta) = P(\alpha') + P(\beta') + 2P(\theta)\iff^{P(\alpha')+P(\theta)=P(\alpha)} \\
+P(\alpha \cup \theta) + P(\theta) = P(\alpha) + P(\beta') + P(\theta)\iff^{P(\beta')+P(\theta)=P(\beta)} \\
+P(\alpha \cup \theta) + P(\theta) = P(\alpha) + P(\beta)\iff^{\theta = \alpha \cap \beta} \\
+P(\alpha \cup \theta) = P(\alpha)+P(\beta)-P(\alpha \cap \beta)
+\end{align*}
+\subsection{Exercise 2.2}
+\subsubsection{(a) Show that for binary random variables $X$, $Y$ the event-level independence ($x^0 \perp y^0$) implies random variable independence}
+\begin{center}
+\begin{tabular}{ c|c|c|c||c  }
+ \hline
+ \multicolumn{2}{c|}{} & \multicolumn{2}{|c||}{Y} \\
+ \hline
+ \multicolumn{2}{c|}{} & 0 & 1 \\
+ \hline
+ \multirow{2}{*}{X} & 0 & $P(X=0, Y=0)$ & $P(X=0, Y=1)$ & $P(X=0)$\\
+ & 1 & $P(X=1, Y=0)$ & $P(X=1, Y=1)$ & $P(X=1)$\\
+ \hline
+ \hline
+ \multicolumn{2}{c|}{} & $P(Y=0)$ & $P(Y=1)$ \\
+\end{tabular}
+\end{center}
+We know that $x^0 \perp y^0 \iff y^0 \perp x^0$ so we need to prove $x^1 \perp y^0$, $x^0 \perp y^1$ and $x^1 \perp y^1$.
+Lets start with $x^1 \perp y^0$:
+\begin{align*}
+P(X=1|Y=0)=1-P(X=0|Y=0) \iff^{ x^0 \perp y^0 }\\
+P(X=1|Y=0)=1-P(X=0) \iff^{ \text{since $\sum_{i=0}^{1}P(X=x^i)=1$ then $1-P(X=0)=P(X=1)$} }\\
+\end{align*}
+\begin{equation}
+P(X=1|Y=0)=P(X=1)
+\end{equation}
+\begin{align*}
+P(X=1 \cap Y=0)=P(X=1|Y=0)P(Y=0)=^{(1)}P(X=1)P(Y=0) \Rightarrow x^1 \perp y^0
+\end{align*}
+The same goes for $y^1 \perp x^0$.
+Now we prove $x^1 \perp y^1$:
+\begin{equation}
+P(X=1|Y=1)=1-P(X=0|Y=1)=^{X=0 \perp Y=1}=1-P(X=0)=P(X=1)
+\end{equation}
+\begin{align*}
+P(X=1 \cap Y=1)=P(X=1|Y=1)P(Y=1)=^{(2)}P(X=1)P(Y=1) \Rightarrow x^1 \perp y^1
+\end{align*}
+We have proven $X=x \perp Y=y$ for all values $x \in Val(X), y \in Val(Y)$ therefore $X \perp Y$.
+\subsubsection{(b) Show a counterexample for nonbinary variables}
+\begin{center}
+\begin{tabular}{ c|c|c|c||c  }
+ \hline
+ \multicolumn{2}{c|}{} & \multicolumn{2}{|c||}{Y} \\
+ \hline
+ \multicolumn{2}{c|}{} & 0 & 1 \\
+ \hline
+ \multirow{3}{*}{X} & 0 & $0.1$ & $0.1$ & $0.2$\\
+ & 1 & $0.1$ & $0.4$ & $0.5$\\
+ & 2 & $0.3$ & $0.0$ & $0.3$\\
+ \hline
+ \hline
+ \multicolumn{2}{c|}{} & $0.5$ & $0.5$ \\
+\end{tabular}
+\end{center}
+Here we can see that $P(X=0|Y=0)=\frac{P(X=0,Y=0)}{P(Y=0)}=\frac{0.1}{0.5}=0.2=P(X=0)$ therefore $X=0 \perp Y=0$.
+Les see what happens for $P(X=1|Y=1)$:
+\begin{align*}
+P(X=1|Y=1)=\frac{P(X=1,Y=1)}{P(Y=1)}=\frac{0.4}{0.5}=0.8 \neq P(X=1)=0.5
+\end{align*}
+We have found one tuple $x \in Val(X), y \in Val(Y)$ where $X=x \not\perp Y=x$ therefore $X \not\perp Y$.
+\subsubsection{(c) Is it the case that, for a binary-valued variable $Z$ we have that $(X \perp Y | z^0)$ implies $(X \perp Y | Z)$?}
+No, here is a counterexample:
+\begin{center}
+\begin{tabular}{ c|c|c|c||c  }
+ \hline
+ \multicolumn{2}{c|}{} & \multicolumn{2}{|c||}{Y} \\
+ \hline
+ \multicolumn{2}{c|}{} & 0 & 1 \\
+ \hline
+ \multirow{2}{*}{X} & 0 & $0.15$ & $0.15$ & $0.3$\\
+ & 1 & $0.15$ & $0.15$ & $0.3$\\
+ \hline
+ \hline
+ \multicolumn{2}{c|}{} & $0.3$ & $0.3$ \\
+\end{tabular}
+\captionof{table}{Joint distribution for z=0, with $P(z=0)=0.6$}
+\end{center}
+\begin{center}
+\begin{tabular}{ c|c|c|c||c  }
+ \hline
+ \multicolumn{2}{c|}{} & \multicolumn{2}{|c||}{Y} \\
+ \hline
+ \multicolumn{2}{c|}{} & 0 & 1 \\
+ \hline
+ \multirow{2}{*}{X} & 0 & $0.1$ & $0.2$ & $0.3$\\
+ & 1 & $0.1$ & $0.0$ & $0.1$\\
+ \hline
+ \hline
+ \multicolumn{2}{c|}{} & $0.2$ & $0.2$ \\
+\end{tabular}
+\captionof{table}{Joint distribution for z=1, with $P(z=1)=0.4$}
+\end{center}
+Lets find $P(X=x \cap Y=y | z^0)$:
+\begin{equation}
+P(X=x \cap Y=y | z^0)=\frac{P(X=x, Y=y, z=0)}{P(z=0)}=\frac{0.15}{0.6}=0.25
+\end{equation}
+Lets remember $(X \perp Y | z^0) \iff P(X=x \cap Y=y | z^0) = P(X=x|z^0)*P(Y=y|z^0)$:
+\begin{align*}
+P(X=x|z^0)*P(Y=y|z^0)=\frac{0.3}{0.6}*\frac{0.3}{0.6}=0.25=^{(1)}P(X=x \cap Y=y | z^0)
+\end{align*}
+So this example satisfies the hypothesis that $(X \perp Y | z^0)$, but for example:
+\begin{equation}
+P(X=0 \cap Y=1 | z^1)=\frac{P(X=0, Y=1, Z=1)}{P(Z=1)}=\frac{0.2}{0.4}=0.5
+\end{equation}
+\begin{equation}
+P(X=0|z^1)*P(Y=1|z^1)=\frac{0.3}{0.4}*\frac{0.2}{0.4}=\frac{3}{8}
+\end{equation}
+We know that $(X \perp Y | Z) \iff (X=x \perp Y=y | Z=z)$ for every $x \in Val(X), y \in Val(Y), z \in Val(Z)$.
+Also $(X=0 \perp Y=1 | Z=1) \iff P(X=0 \cap Y=1 | z^1)=P(X=0|z^1)*P(Y=1|z^1)$ but
+$P(X=0 \cap Y=1 | z^1)=0.5 \neq P(X=0|z^1)*P(Y=1|z^1)=\frac{3}{8}$ therefore $(X=0 \not\perp Y=1 | Z=1)$.\\
+I have found a case where $(X=0 \not\perp Y=1 | Z=1) \Rightarrow (X \not\perp Y | Z)$ given $(X \perp Y | z^0)$.
+\subsection{Exercise 2.3}
+\subsubsection{$\alpha \cap \beta$}
+\begin{equation}
+P(\alpha \cap \beta)=P(\alpha | \beta)*P(\beta)
+\end{equation}
+Lets find the minimum, if $\alpha \cap \beta = \emptyset$:
+\begin{align*}
+P(\alpha \cap \beta)=0
+\end{align*}
+Since $P(a) \geq 0$ for all $a \in \mathcal{S}$ then $P(\alpha \cap \beta)<0$ is not possible therefore $P(\alpha \cap \beta) \geq 0$.
+Lets fint the maximum, particularly if $\alpha = \beta$:
+\begin{align*}
+P(\alpha \cap \beta)=P(\alpha)=P(\beta)
+\end{align*}
+Since $0 \leq P(\alpha | \beta) \leq 1$ then $P(\alpha \cap \beta)=^{(1)}P(\alpha | \beta)*P(\beta) \leq P(\beta)$ therefore the
+particular case when $\alpha = \beta$ produces the maximum then $P(\alpha \cap \beta) \leq P(\alpha)=P(\beta)$.
+\subsubsection{$\alpha \cup \beta$}
+We have proven in exercise 2.1 that:
+\begin{equation}
+P(\alpha \cup \beta)=P(\alpha)+P(\beta)-P(\alpha \cap \beta)
+\end{equation}
+$P(\alpha)$ and $P(\beta)$ are known, we can only minimize and maximize $P(\alpha \cap \beta)$.\\
+The minimum occurs when $\alpha = \beta$ and $P(\alpha \cap \beta)=P(\alpha)=P(\beta)$.\\
+The maximum occurs when $\alpha \cap \beta = \emptyset$.
+\subsection{Exercise 2.4}
+\subsubsection{$P(\cdot|\alpha) \geq 0$}
+\begin{align*}
+P(\cdot|\alpha) = \frac{P(\cdot \cap \alpha)}{P(\alpha)}
+\end{align*}
+But we know $\cdot \cap \alpha$ is in the event space then because of the same definition $P(\cdot \cap \alpha) \geq 0$ and we know that $P(\alpha) > 0$. bla bla bla this means $P(\cdot|\alpha) \geq 0$. \\
+The proof is left to the reader (?
+\subsubsection{$P(\Omega|\alpha)=1$}
+\begin{align*}
+P(\Omega|\alpha) = \frac{P(\Omega \cap \alpha)}{P(\alpha)} =_{\Omega \cap \alpha = \alpha} \frac{P(\alpha)}{P(\alpha)} = 1
+\end{align*}
+\subsubsection{$\beta, \gamma \in \mathcal{S}, \beta \cap \gamma = \emptyset \Rightarrow P(\beta \cup \gamma|\alpha) = P(\beta|\alpha) + P(\gamma|\alpha)$}
+\begin{equation}
+P(\beta \cup \gamma|\alpha) = \frac{P((\beta \cap \alpha) \cup (\gamma \cap \alpha))}{P(\alpha)}
+\end{equation}
+Because of set theory:
+\begin{equation}
+\beta \cap \alpha \subset \beta, \gamma \cap \alpha \subset \gamma
+\end{equation}
+\begin{equation}
+\beta, \gamma, \alpha \in \mathcal{S} \Rightarrow (\beta \cap \alpha) \in \mathcal{S}, (\gamma \cap \alpha) \in \mathcal{S},
+\end{equation}
+\begin{equation}
+(\beta \cap \alpha) \cap (\gamma \cap \beta) \subset_{(2)} \beta \cap \alpha = \emptyset \Rightarrow (\beta \cap \alpha) \cap (\gamma \cap \beta) = \emptyset
+\end{equation}
+Then with (3) and (4) in (1):
+\begin{align*}
+\frac{P((\beta \cap \alpha) \cup (\gamma \cap \alpha))}{P(\alpha)} =_{(3),(4)} \frac{P(\beta \cap \alpha)}{P(\alpha)} + \frac{P(\gamma \cap \alpha)}{P(\alpha)} = P(\beta|\alpha) + P(\gamma|\alpha)
+\end{align*}
+\subsection{Exercise 2.5}
+We say that P satisfies $(\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})$ when
+$(\boldsymbol{X}=\boldsymbol{x} \perp \boldsymbol{Y}=\boldsymbol{y} | \boldsymbol{Z}=\boldsymbol{z})$.
+for all $\boldsymbol{x} \in Val(\boldsymbol{X}), \boldsymbol{y} \in Val(\boldsymbol{Y}), \boldsymbol{z} \in Val(\boldsymbol{Z})$
+
+We also know that $(\boldsymbol{X}=\boldsymbol{x} \perp \boldsymbol{Y}=\boldsymbol{y} | \boldsymbol{Z}=\boldsymbol{z})$ if and only if $P(X=x \cup Y=y | Z=z) = P(X=x|Z=z)P(Y=y|Z=z)$
+\subsubsection{$P(X,Y | Z) = P(X|Z)P(Y|Z) \iff (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})$}
+For all $\boldsymbol{x} \in Val(\boldsymbol{X}), \boldsymbol{y} \in Val(\boldsymbol{Y}), \boldsymbol{z} \in Val(\boldsymbol{Z})$:
+\begin{align*}
+P(X=x \cup Y=y | Z=z) =_{\text{condition}}\\
+P(X=x|Z=z)P(Y=y|Z=z) \iff_{\text{event conditional independence}}\\
+(X=x \perp Y=y | Z=z)
+\end{align*}
+Below we have that:
+\begin{align*}
+(X=x \perp Y=y | Z=z)\text{ for all }\boldsymbol{x} \in Val(\boldsymbol{X}), \boldsymbol{y} \in Val(\boldsymbol{Y}), \boldsymbol{z} \in Val(\boldsymbol{Z})
+\end{align*}
+Which is the definition of $(\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})$.
+\subsubsection{$(\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z}) \Rightarrow P(\chi )=\phi_1(\boldsymbol{X},\boldsymbol{Z})\phi_2(\boldsymbol{Y},\boldsymbol{Z})$}
+\begin{align*}
+P(X,Y|Z)=\frac{P(X,Y,Z)}{P(Z)}=\frac{P(\chi )}{P(Z)} \Rightarrow P(\chi )=P(X,Y|Z)*P(Z)\\
+P(\chi )=P(X,Y|Z)*P(Z)=P(X|Z)P(Y|Z)P(Z)
+\end{align*}
+Let $\phi_1(X,Z)=P(X|Z)$ and $\phi_2(Y,Z)=P(Y|Z)P(Z)$, then:
+\begin{align*}
+P(\chi )=\phi_1(X,Z)\phi_2(Y,Z)
+\end{align*}
+\subsubsection{$P(\chi )=\phi_1(\boldsymbol{X},\boldsymbol{Z})\phi_2(\boldsymbol{Y},\boldsymbol{Z}) \Rightarrow (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})$}
+We have that:
+\begin{equation}
+P(Z)=\sum_x \sum_y P(\chi ) = \sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)
+\end{equation}
+\begin{equation}
+P(X,Y|Z)=\frac{P(\chi )}{P(Z)}=_{(1)}\frac{\phi_1(X,Z) \phi_2(Y,Z)}{\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)}
+\end{equation}
+\begin{equation}
+P(X|Z)=\frac{P(X,Z)}{P(Z)}=\frac{\sum_y P(\chi )}{P(Z)}=_{(1)}\frac{\phi_1(X,Z) \sum_y \phi_2(Y,Z)}{\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)}
+\end{equation}
+\begin{equation}
+P(Y|Z)=\frac{P(Y,Z)}{P(Z)}=\frac{\sum_x P(\chi )}{P(Z)}=_{(1)}\frac{\phi_2(Y,Z) \sum_x \phi_1(X,Z)}{\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)}
+\end{equation}
+And then multiplying (3) and (4):
+\begin{align*}
+P(X|Z)P(Y|Z)=\frac{\phi_1(X,Z) \phi_2(Y,Z) (\sum_x \phi_1(X,Z)) (\sum_y \phi_2(Y,Z))}{(\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z))^2}\\
+=\frac{\phi_1(X,Z) \phi_2(Y,Z) (\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z))}{(\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z))^2}\\
+=\frac{\phi_1(X,Z) \phi_2(Y,Z)}{\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)}=_{(2)} P(X,Y|Z) \Rightarrow_{2.5.1} (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})\footnotemark
+\end{align*}
+\footnotetext{This could be also an if and only if proof so 2.5.2 would be unnecessary}
+\subsection{Exercise 2.6}
+\begin{equation}
+P(X|Y)=\frac{P(X,Y)}{P(Y)}=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
+\end{equation}
+\begin{equation}
+\sum_z P(X,Z=z|Y)=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
+\end{equation}
+And there we have that (1) is equal to (2)\footnote{Actually i dont know if i can use the sum over the joint distribution for (1) but the exercise was boring}
+\subsection{Exercise 2.7}
+\end{document}
