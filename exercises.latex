@@ -1,11 +1,22 @@
+% !TEX root = exercises.latex
+
 \documentclass[12pt,a4paper]{article}
 \title{Solved exercises for 'Probabilistic Graphical Models: Principles and techniques'}
 \author{Gianmarco Cafferata}
 
+\usepackage{amsfonts}
 \usepackage{caption}
 \usepackage{chngcntr}
 \usepackage{amsmath}
 \usepackage{multirow}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{imakeidx}
+\usepackage[ruled,vlined]{algorithm2e}
+\makeindex
+
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{\mathbb{V}ar}
 
 \counterwithin*{equation}{section}
 \counterwithin*{equation}{subsection}
@@ -14,8 +25,12 @@
 \begin{document}
 \maketitle
 \clearpage
+
+\tableofcontents
+
 \setcounter{section}{1}
 \section{Foundations}
+
 \subsection{Exercise 2.1}
 \subsubsection{(a) $P(\emptyset)=0$}
 From the axioms and set theory:
@@ -70,6 +85,7 @@ P(\alpha \cup \theta) + P(\theta) = P(\alpha) + P(\beta') + P(\theta)\iff^{P(\be
 P(\alpha \cup \theta) + P(\theta) = P(\alpha) + P(\beta)\iff^{\theta = \alpha \cap \beta} \\
 P(\alpha \cup \theta) = P(\alpha)+P(\beta)-P(\alpha \cap \beta)
 \end{align*}
+
 \subsection{Exercise 2.2}
 \subsubsection{(a) Show that for binary random variables $X$, $Y$ the event-level independence ($x^0 \perp y^0$) implies random variable independence}
 \begin{center}
@@ -180,6 +196,7 @@ We know that $(X \perp Y | Z) \iff (X=x \perp Y=y | Z=z)$ for every $x \in Val(X
 Also $(X=0 \perp Y=1 | Z=1) \iff P(X=0 \cap Y=1 | z^1)=P(X=0|z^1)*P(Y=1|z^1)$ but
 $P(X=0 \cap Y=1 | z^1)=0.5 \neq P(X=0|z^1)*P(Y=1|z^1)=\frac{3}{8}$ therefore $(X=0 \not\perp Y=1 | Z=1)$.\\
 I have found a case where $(X=0 \not\perp Y=1 | Z=1) \Rightarrow (X \not\perp Y | Z)$ given $(X \perp Y | z^0)$.
+
 \subsection{Exercise 2.3}
 \subsubsection{$\alpha \cap \beta$}
 \begin{equation}
@@ -204,6 +221,7 @@ P(\alpha \cup \beta)=P(\alpha)+P(\beta)-P(\alpha \cap \beta)
 $P(\alpha)$ and $P(\beta)$ are known, we can only minimize and maximize $P(\alpha \cap \beta)$.\\
 The minimum occurs when $\alpha = \beta$ and $P(\alpha \cap \beta)=P(\alpha)=P(\beta)$.\\
 The maximum occurs when $\alpha \cap \beta = \emptyset$.
+
 \subsection{Exercise 2.4}
 \subsubsection{$P(\cdot|\alpha) \geq 0$}
 \begin{align*}
@@ -232,6 +250,7 @@ Then with (3) and (4) in (1):
 \begin{align*}
 \frac{P((\beta \cap \alpha) \cup (\gamma \cap \alpha))}{P(\alpha)} =_{(3),(4)} \frac{P(\beta \cap \alpha)}{P(\alpha)} + \frac{P(\gamma \cap \alpha)}{P(\alpha)} = P(\beta|\alpha) + P(\gamma|\alpha)
 \end{align*}
+
 \subsection{Exercise 2.5}
 We say that P satisfies $(\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})$ when
 $(\boldsymbol{X}=\boldsymbol{x} \perp \boldsymbol{Y}=\boldsymbol{y} | \boldsymbol{Z}=\boldsymbol{z})$.
@@ -280,6 +299,7 @@ P(X|Z)P(Y|Z)=\frac{\phi_1(X,Z) \phi_2(Y,Z) (\sum_x \phi_1(X,Z)) (\sum_y \phi_2(Y
 =\frac{\phi_1(X,Z) \phi_2(Y,Z)}{\sum_x \sum_y \phi_1(X,Z) \phi_2(Y,Z)}=_{(2)} P(X,Y|Z) \Rightarrow_{2.5.1} (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z})\footnotemark
 \end{align*}
 \footnotetext{This could be also an if and only if proof so 2.5.2 wouldn't be unnecessary}
+
 \subsection{Exercise 2.6}
 \begin{equation}
 P(X|Y)=\frac{P(X,Y)}{P(Y)}=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
@@ -287,6 +307,203 @@ P(X|Y)=\frac{P(X,Y)}{P(Y)}=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
 \begin{equation}
 \sum_z P(X,Z=z|Y)=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
 \end{equation}
-And there we have that (1) is equal to (2)\footnote{Actually i don't know if i can use the sum over the joint distribution for (1) but the exercise was boring}
+And there we have that (1) is equal to (2)\footnote{Actually i don't know if i can use the sum over the joint distribution for (1) but meh}
+
 \subsection{Exercise 2.7}
+\subsubsection{a. Prove that the weak union and contraction properties hold for any probability distribution $P$}\footnote{I had an issue with this one, i wasn't sure i could use bayes rule so i googled it, \href{https://math.stackexchange.com/questions/855002/what-does-the-decomposition-weak-union-and-contraction-rule-mean-for-conditiona}{it seems} that the proposition 2.3 needs that $P(Z)>0$ and therefore bayes rule can be used}
+\paragraph{Weak union $(\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z}) \Rightarrow (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z}, \boldsymbol{W})$}
+\begin{equation}
+(\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z}) \iff_{\text{proposition 2.3}} P(X,Y,W|Z) = P(X|Z)P(Y,W|Z)
+\end{equation}
+\begin{equation}
+\begin{split}
+(\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z}) \Rightarrow_{\text{decomposition}} \\
+(\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z}) \iff_{\text{proposition 2.3}} \\
+P(X,Y|Z) = P(X|Z)P(Y|Z)
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+(\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z}) \Rightarrow_{\text{decomposition}} \\
+(\boldsymbol{X} \perp \boldsymbol{W} | \boldsymbol{Z}) \iff_{\text{proposition 2.3}} \\
+P(X,W|Z) = P(X|Z)P(W|Z)
+\end{split}
+\end{equation}
+\begin{equation}
+P(X,Y,W,Z) = P(Z)P(W|Z)P(Y|W,Z)P(X|Y,W,Z)
+\end{equation}
+\begin{align*}
+P(X,Y|Z,W) = \frac{P(X,Y,W,Z)}{P(W,Z)} =_{(4)} P(Y|W,Z)P(X|Y,W,Z) = \\
+P(Y|W,Z)P((X|Y,W)|Z) =_{(1)} P(Y|W,Z)P(X|Z) =_{(3)} P(Y|W,Z)P(X|Z,W)
+\end{align*}
+Finally:
+\begin{align*}
+P(X,Y|Z,W) = P(Y|W,Z)P(X|Z,W) \iff_{\text{proposition 2.3}} (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z}, \boldsymbol{W})
+\end{align*}
+\paragraph{Contraction $(\boldsymbol{X} \perp \boldsymbol{W} | \boldsymbol{Z}, \boldsymbol{Y})$ \& $(\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z}) \Rightarrow (\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z})$}
+\begin{equation}
+P(X,Y,W,Z) = P(Z)P(X|Z)P(Y|X,Z)P(W|X,Y,Z)
+\end{equation}
+\begin{equation}
+P(Y,W|Z) = \frac{P(Y,W,Z)}{P(Z)} = P(Y|Z)P(W|Y,Z)
+\end{equation}
+\begin{align*}
+P(X,Y,W|Z) = \frac{P(X,Y,Z,W)}{P(Z)} =_{(5)} P(X|Z)P(Y|X,Z)P(W|X,Y,Z) =_{X \perp Y | Z} \\
+P(X|Z)P(Y|Z)P(W|X,Y,Z) =_{X \perp W | Z, Y} P(X|Z)P(Y|Z)P(W|Y,Z) =_{(6)} P(X|Z)P(Y,W|Z)
+\end{align*}
+Finally:
+\begin{align*}
+P(X,Y,W|Z) = P(X|Z)P(Y,W|Z) \iff_{\text{proposition 2.3}} (\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z})
+\end{align*}
+\subsubsection{\textit{TODO} b. Prove that the intersection property holds for any positive probability distribution $P$}
+\textit{I have no idea what to do :(}
+\subsubsection{\textit{TODO} c. Provide a counterexample to the intersection property in cases where the distribution $P$ is not positive}
+\textit{I have no idea what to do :(}
+
+\subsection{Exercise 2.8}
+\textit{The resolution is the same as in 2.2}
+
+\subsection{Exercise 2.9}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwIn{$\mathcal{K} = (\chi, \varepsilon)$}
+ $visited \gets \emptyset$\;
+ \For{$X \in \chi \land X \notin visited$}{
+  $visited \gets visited \cup \{X\}$\;
+  \For{$Y$ such that $(X \to Y) \in \varepsilon$}{
+    \If{$Y \in visited$}{
+      \Return{there is a loop}\;
+    }
+  }
+ }
+ \Return{there is no loop}\;
+ \caption{Determine if a graph $\mathcal{K}$ is cyclic with BFS}
+\end{algorithm}
+
+\subsection{Exercise 2.10}
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwIn{$\mathcal{K} = (\chi, \varepsilon)$}
+ $chains \gets []$\;
+ $chain\ membership \gets$ empty map\;
+ $chain\ edges \gets []$\;
+ $visited \gets \emptyset$\;
+ \For{$X \in \chi \land X \notin visited \land \forall (Y \to X) \in \varepsilon, Y \in visited$}{
+  $visited \gets visited \cup X$\;
+  $chain \gets \{X\}$\;
+  \For{$Y$ such that $(X \textrm{---} Y) \in \varepsilon$}{
+    $chain \gets chain \cup \{Y\}$
+  }
+  append $chain$ to $chains$\;
+  \For{$Y \in chain$}{
+    $chain\ membership[Y] \gets |chains|$
+  }
+ }
+ \For{i $\gets 1..|chains|$}{
+   \For{$Z$ such that $(Y \to Z) \in \varepsilon \land Y \in chains[i]$}{
+     append ($chain\ membership[Y]$, $chain\ membership[Z]$) to $chain\ edges$\;
+   }
+ }
+ \Return{$chains$, topological order over $\mathcal{K} = (1..|chains|, chain\ edges)$\;}
+ \caption{Topological ordering over PDAG chain components}
+\end{algorithm}
+
+It has linear time complexity $\mathcal{O}(|\mathcal{X}| + |\varepsilon|)$
+
+\subsection{Exercise 2.11}
+
+\begin{align*}
+\Var(X) = \E[(X-\E[X])^2]\\
+\Var(X) = \E[X^2-2\E[X]X+\E[X]^2]\\
+\Var(X) = \E[X^2] - 2 \E[X] \E[X] + \E[X]^2\\
+\Var(X) = \E[X^2] - \E[X]^2
+\end{align*}
+
+\subsection{Exercise 2.12}
+
+\begin{align*}
+\E[X] = \int_{0}^\infty xp(x)\ dx = \int_{0}^t xp(x)\ dx + \int_{t}^\infty xp(x)\ dx \geq \int_{t}^\infty xp(x)\ dx \geq \int_{t}^\infty tp(x)\ dx\\
+\E[X] \geq t \int_{t}^\infty p(x)\ dx = t P(X \geq t)
+\end{align*}
+
+\subsection{Exercise 2.13}
+
+Hint: Find $Y$ such that you can use 2.12.
+
+\begin{align}
+|X-\E[X]| \geq t \iff (X-\E[X])^2 \geq t^2
+\end{align}
+
+\begin{align}
+\E[(X-\E[X])^2] = \Var(X)
+\end{align}
+
+Let $t^2 = \alpha$ and $Y=(X-\E[X])^2$
+
+\begin{align*}
+P(|X-\E[X]| \geq t) =_{(1)} P((X-\E[X])^2 \geq t^2) = P(Y \geq \alpha)\\
+ \leq_{\text{Markov's}} \frac{\E[Y]}{\alpha} =_{(2)} \frac{\Var(X)}{t^2}
+\end{align*}
+
+\subsection{Exercise 2.14}
+
+I can only think of doing it with moment generating functions and its also a more fun way, we need just three things:
+
+\begin{enumerate}
+  \item $\mathcal{L}\{p_X\}(t) = M_X(-t)$
+  \item Let $X$ and $Y$ be random variables then $M_x(t) = M_y(t) \iff p_X = p_Y$
+  \item $M_{\alpha X+\beta} = e^{\beta t} M_X(\alpha t)$
+\end{enumerate}
+
+The proof of 1. (very simple):
+
+\begin{align}
+M_X(t)=_{\text{definition}}\E[e^{tX}] = \int_{-\infty}^{\infty} e^{tX} p_x(x)\ dx
+\end{align}
+
+\begin{align}
+\mathcal{L}\{p_X\}(s) =_{\text{definition}} \int_{-\infty}^{\infty} e^{-sX} p_x(x)\ dx
+\end{align}
+
+We can see that 1. is true if we change $s$ with $-t$ between (1) and (2).
+
+For 2. we need to know about uniqueness of laplace transform, since $p_X$ and $p_Y$ are continous in all points uniqueness holds. The proof is left to the reader (? xdlol
+
+For 3 we simply have to do:
+
+\begin{align*}
+M_{\alpha X+\beta} = \E[e^{t(\alpha X+\beta))}]\\
+M_{\alpha X+\beta} = e^{\beta t}\E[e^{t \alpha X}] = e^{\beta t}M_X(\alpha t)
+\end{align*}
+
+And here we have the mgf of a $X \sim \mathcal{N}(\mu,\sigma^2)$:\footnote{This was harder than i imagined, i thought that because the distribution function had an exponential it would be an easy transform, i forgot that it had the form of $e^{t^2}$ and that its not an easy transform that can be found in tables but im already commited to this}
+
+\begin{align}
+M_X(t) = \mathcal{L}\{p_X\}(-t) = \frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(x- \mu)^2}{2\sigma^2} + tx}\ dx
+\end{align}
+
+Here the mgf of $X' \sim \mathcal{N}(a\mu + b,a^2\sigma^2)$:
+
+\begin{align}
+M_{X'}(t) = \mathcal{L}\{p_{X'}\}(-t) = \frac{1}{a \sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(x- a\mu - b)^2}{2a^2\sigma^2} + tx}\ dx
+\end{align}
+
+We can use the property 3 to get the mgf of $aX+b$
+
+\begin{align}
+M_{a X+b}(t) = e^{b t} M_X(a t) = e^{bt} \frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(x- \mu)^2}{2\sigma^2} + atx}\ dx
+\end{align}
+
+We can make the variable change $z = \frac{x}{a} - b \iff x=az+b$ in (4) with $dx = a\ dz$:
+
+\begin{align*}
+M_{X'}(t) = \frac{1}{a \sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(x- a\mu - b)^2}{2a^2\sigma^2} + tx}\ dx = \frac{1}{a \sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(az + b - a\mu - b)^2}{2a^2\sigma^2} + t(az + b)} a\ dz\\
+=e^{bt} \frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(az- a\mu)^2}{2a^2\sigma^2} + taz}\ dz = e^{bt} \frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(az- a\mu)^2}{2a^2\sigma^2} + taz}\ dz \\
+= e^{bt} \frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(z-\mu)^2}{2\sigma^2} + taz}\ dz
+\end{align*}
+
+With this change we see that (4) and (5) are the same therefore because of the property 2 given $Y=aX+b$ and $X'\sim \mathcal{N}(a\mu + b,a^2\sigma^2)$ then $M_{X'}(t) = M_Y(t) \implies p_{X'} = p_Y \implies Y \sim \mathcal{N}(a\mu + b,a^2\sigma^2)$.
+
 \end{document}
