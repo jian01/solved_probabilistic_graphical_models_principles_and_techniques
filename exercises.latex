@@ -12,6 +12,7 @@
 \usepackage{titlesec}
 \usepackage{hyperref}
 \usepackage{imakeidx}
+\usepackage[stable]{footmisc}
 \usepackage[ruled,vlined]{algorithm2e}
 \makeindex
 
@@ -310,7 +311,7 @@ P(X|Y)=\frac{P(X,Y)}{P(Y)}=\frac{\sum_z P(X,Y,Z=z)}{P(Y)}
 And there we have that (1) is equal to (2)\footnote{Actually i don't know if i can use the sum over the joint distribution for (1) but meh}
 
 \subsection{Exercise 2.7}
-\subsubsection{a. Prove that the weak union and contraction properties hold for any probability distribution $P$}\footnote{I had an issue with this one, i wasn't sure i could use bayes rule so i googled it, \href{https://math.stackexchange.com/questions/855002/what-does-the-decomposition-weak-union-and-contraction-rule-mean-for-conditiona}{it seems} that the proposition 2.3 needs that $P(Z)>0$ and therefore bayes rule can be used}
+\subsubsection{a. Prove that the weak union and contraction properties hold for any probability distribution $P$\footnote{I had an issue with this one, i wasn't sure i could use bayes rule so i googled it, \href{https://math.stackexchange.com/questions/855002/what-does-the-decomposition-weak-union-and-contraction-rule-mean-for-conditiona}{it seems} that the proposition 2.3 needs that $P(Z)>0$ and therefore bayes rule can be used}}
 \paragraph{Weak union $(\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z}) \Rightarrow (\boldsymbol{X} \perp \boldsymbol{Y} | \boldsymbol{Z}, \boldsymbol{W})$}
 \begin{equation}
 (\boldsymbol{X} \perp \boldsymbol{Y}, \boldsymbol{W} | \boldsymbol{Z}) \iff_{\text{proposition 2.3}} P(X,Y,W|Z) = P(X|Z)P(Y,W|Z)
@@ -505,5 +506,98 @@ M_{X'}(t) = \frac{1}{a \sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(x
 \end{align*}
 
 With this change we see that (4) and (5) are the same therefore because of the property 2 given $Y=aX+b$ and $X'\sim \mathcal{N}(a\mu + b,a^2\sigma^2)$ then $M_{X'}(t) = M_Y(t) \implies p_{X'} = p_Y \implies Y \sim \mathcal{N}(a\mu + b,a^2\sigma^2)$.
+
+\subsection{Exercise 2.15\footnote{Thanks to my friend Matias Pereyra for the help, i was stucked trying to solve it with Taylor series lol}}
+
+\subsubsection{$y<x \land f''(x) \leq 0\ \forall x \in \mathbb{R} \implies f$ is concave}
+
+If $f''(x) \leq 0\ \forall x \in \mathbb{R}$ then $f'(x)$ is always decreasing (or constant). Let $z=\alpha x + (1-\alpha) y$ so $y<z<x$.
+
+\begin{align*}
+f(x)-f(z) = \int_z^x f'(u)\ du
+\end{align*}
+
+Because $f'(x)$ is decreasing and since $z < x$:
+\begin{align}
+f(x)-f(z) = \int_z^x f'(u)\ du \leq f'(z)(x-z)
+\end{align}
+
+Following similar steps and considering $y<z$ we can achieve:
+
+\begin{align}
+f(z)-f(y) = \int_y^z f'(u)\ du \geq f'(z)(z-y)
+\end{align}
+
+Also we can get an expression for $x-z$ and $z-y$:
+\begin{align}
+x-z=(1-\alpha)(x + y)\\
+z-y=\alpha(x + y)
+\end{align}
+
+Using (3) and (4) in (1) and (2):
+
+\begin{align}
+f(z) \geq -f'(z)(x-z)+f(x) =_{(3)} -(1-\alpha)f'(z)(x + y)+f(x)\\
+f(z) \geq f'(z)(z-y)+f(y) =_{(4)} \alpha f'(z)(x + y)+f(y)
+\end{align}
+
+Then we multiply (5) with $\alpha$ and (6) with $(1-\alpha)$ and add both (5) and (6).
+
+\begin{align}
+\alpha f(z) \geq -(1-\alpha) \alpha f'(z)(x + y)+f(x) \alpha\\
+(1-\alpha)f(z) \geq \alpha (1-\alpha) f'(z)(x + y)+f(y)(1-\alpha)
+\end{align}
+
+Adding (7) and (8):
+
+\begin{align*}
+\alpha f(z) + (1-\alpha)f(z) = f(z) = f(\alpha x + (1-\alpha) y) \geq \alpha f(x) + (1-\alpha)f(y)
+\end{align*}
+
+We get the definition of concavity.
+
+\subsubsection{$x<y \land f''(x) \leq 0\ \forall x \in \mathbb{R} \implies f$ is concave}
+
+Let $z=\alpha x + (1-\alpha) y$ so $x<z<y$.
+
+\begin{align*}
+f(x)-f(z) = \int_z^x f'(u)\ du
+\end{align*}
+
+Because $f'(x)$ is decreasing and since $x<z<y$:
+\begin{align}
+f(z)-f(x) = \int_x^z f'(u)\ du \geq f'(z)(z-x)\\
+f(y)-f(z) = \int_z^y f'(u)\ du \leq f'(z)(y-z)
+\end{align}
+
+Also we can get an expression for $z-x$ and $y-z$:
+\begin{align}
+z-x=(\alpha-1)x+(1-\alpha)y=(1-\alpha)(y-x)\\
+y-z=\alpha(y-x)
+\end{align}
+
+Using (3) and (4) in (1) and (2):
+
+\begin{align}
+f(z) \geq f'(z)(z-x)+f(x) = (1-\alpha)f'(z)(y - x) + f(x)\\
+f(z) \geq -f'(z)(y-z)+f(y) = -\alpha f'(z) (y-x) + f(y)
+\end{align}
+
+Then we multiply (5) with $\alpha$ and (6) with $(1-\alpha)$ and add both (5) and (6).
+
+\begin{align}
+\alpha f(z) \geq (1-\alpha) \alpha f'(z) (y - x) + \alpha f(x)\\
+(1-\alpha) f(z) \geq -\alpha (1-\alpha) f'(z) (y - x) + (1-\alpha) f(y)
+\end{align}
+
+Adding (7) and (8):
+
+\begin{align*}
+\alpha f(z) + (1-\alpha)f(z) = f(z) = f(\alpha x + (1-\alpha) y) \geq \alpha f(x) + (1-\alpha)f(y)
+\end{align*}
+
+We get the definition of concavity.
+
+\subsubsection{$f$ is concave $ \implies f''(x) \leq 0\ \forall x \in \mathbb{R}$}
 
 \end{document}
