@@ -470,7 +470,7 @@ M_X(t)=_{\text{definition}}\E[e^{tX}] = \int_{-\infty}^{\infty} e^{tX} p_x(x)\ d
 
 We can see that 1. is true if we change $s$ with $-t$ between (1) and (2).
 
-For 2. we need to know about uniqueness of laplace transform, since $p_X$ and $p_Y$ are continous in all points uniqueness holds. The proof is left to the reader (? xdlol
+For 2...\footnote{I thought this had something to do with the uniqueness of the Laplace transform, but \href{https://math.stackexchange.com/questions/458680/how-to-prove-moment-generating-function-uniqueness-theorem}{apparently} im wrong? i will try to fully understand this}
 
 For 3 we simply have to do:
 
