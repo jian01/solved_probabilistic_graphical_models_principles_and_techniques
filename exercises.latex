@@ -479,7 +479,7 @@ M_{\alpha X+\beta} = \E[e^{t(\alpha X+\beta))}]\\
 M_{\alpha X+\beta} = e^{\beta t}\E[e^{t \alpha X}] = e^{\beta t}M_X(\alpha t)
 \end{align*}
 
-And here we have the mgf of a $X \sim \mathcal{N}(\mu,\sigma^2)$:\footnote{This was harder than i imagined, i thought that because the distribution function had an exponential it would be an easy transform, i forgot that it had the form of $e^{t^2}$ and that its not an easy transform that can be found in tables but im already commited to this}
+And here we have the mgf of a $X \sim \mathcal{N}(\mu,\sigma^2)$:\footnote{This was harder than i imagined, i thought that because the desnity function had an exponential it would be an easy transform, i forgot that it had the form of $e^{t^2}$ and that its not an easy transform that can be found in tables but im already commited to this}
 
 \begin{align}
 M_X(t) = \mathcal{L}\{p_X\}(-t) = \frac{1}{\sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} e^{-\frac{(x- \mu)^2}{2\sigma^2} + tx}\ dx
@@ -599,5 +599,32 @@ Adding (7) and (8):
 We get the definition of concavity.
 
 \subsubsection{$f$ is concave $ \implies f''(x) \leq 0\ \forall x \in \mathbb{R}$}
+
+Let's assume there's an interval $[\lambda, \beta]$ where $f''(x) > 0$ and let $x, y \in [\lambda, \beta]$ such that $x>y$.
+Let once again $z=\alpha x + (1-\alpha) y$.
+
+We know that in the interval $[\lambda, \beta]$, $f'(x)$ is increasing, then:
+
+\begin{align}
+f(x)-f(z) = \int_z^x f'(u)\ du > f'(z)(x-z)\\
+f(z)-f(y) = \int_y^z f'(u)\ du < f'(z)(z-y)\\
+x-z=(1-\alpha)(x + y)\\
+z-y=\alpha(x + y)
+\end{align}
+
+Using (3) and (4) in (1) and (2):
+
+\begin{align}
+f(z) < f'(z)(z-x)+f(x) = (1-\alpha)f'(z)(y - x) + f(x)\\
+f(z) < -f'(z)(y-z)+f(y) = -\alpha f'(z) (y-x) + f(y)
+\end{align}
+
+Then we multiply (5) with $\alpha$ and (6) with $(1-\alpha)$ and add both (5) and (6).
+
+\begin{align*}
+\alpha f(z) + (1-\alpha)f(z) = f(z) = f(\alpha x + (1-\alpha) y) < \alpha f(x) + (1-\alpha)f(y)
+\end{align*}
+
+But we said $f$ was concave so this can't happen so there can't be any interval where $f''(x) > 0$ given that $f$ is concave.
 
 \end{document}
